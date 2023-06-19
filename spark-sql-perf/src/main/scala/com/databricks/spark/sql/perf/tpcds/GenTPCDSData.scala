@@ -30,7 +30,9 @@ case class GenTPCDSDataConfig(
                                clusterByPartitionColumns: Boolean = true,
                                filterOutNullPartitionValues: Boolean = true,
                                tableFilter: String = "",
-                               numPartitions: Int = 100)
+                               numPartitions: Int = 100,
+                               onlyWarn: Boolean = true
+                             )
 
 /**
  * Gen TPCDS data.
@@ -82,6 +84,9 @@ object GenTPCDSData {
       opt[Int]('n', "numPartitions")
         .action((x, c) => c.copy(numPartitions = x))
         .text("how many dsdgen partitions to run - number of input tasks.")
+      opt[Boolean]('w', "onlyWarn")
+        .action((x, c) => c.copy(onlyWarn = x))
+        .text("print only warnings")
       help("help")
         .text("prints this usage text")
     }
@@ -100,14 +105,21 @@ object GenTPCDSData {
       .appName(getClass.getName)
       .getOrCreate()
 
+    if (config.onlyWarn) {
+      println(s"Only WARN")
+      spark.sparkContext.setLogLevel("WARN")
+    }
+
     spark.sparkContext.addFile(s"${config.dsdgenTools}")
     val tables = new TPCDSTables(spark.sqlContext,
       scaleFactor = config.scaleFactor,
       useDoubleForDecimal = config.useDoubleForDecimal,
       useStringForDate = config.useStringForDate)
 
+    val start = System.currentTimeMillis()
+    val location = config.location.stripSuffix("/")
     tables.genData(
-      location = config.location,
+      location = location,
       format = config.format,
       overwrite = config.overwrite,
       partitionTables = config.partitionTables,
@@ -115,5 +127,12 @@ object GenTPCDSData {
       filterOutNullPartitionValues = config.filterOutNullPartitionValues,
       tableFilter = config.tableFilter,
       numPartitions = config.numPartitions)
+    val end = System.currentTimeMillis()
+
+    val resLine = s"Generate data, cost: ${(end - start) / 1000} seconds"
+    println(resLine)
+    val resultLocation = config.location.stripSuffix("/") + "/results"
+    spark.sql(s"select '$resLine'").repartition(1).write.mode("overwrite").format("csv").save(s"$resultLocation/gendata")
+    spark.stop()
   }
 }
