@@ -32,7 +32,7 @@ CURRENT_DIR=$(cd `dirname $0`; pwd)
 cd ${CURRENT_DIR}
 
 if $ENABLE_KERBEROS; then
-    SPARK_CONF="${SPARK_CONF} --keytab ${KEYTAB} --principal ${PRINCIPAL}"
+    SPARK_CONF="${SPARK_CONF} --keytab ${KEYTAB} --principal ${PRINCIPAL} --conf spark.yarn.access.hadoopFileSystems=${LOCATION}"
 fi
 
 set -x
