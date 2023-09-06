@@ -22,7 +22,7 @@ The result will be printed the console and save to $location/results.
 - **create**
 
   ```shell
-  hadoop jar juicefs-hadoop.jar nnbench create -files 10000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench -local
+  hadoop jar juicefs-hadoop.jar com.juicefs.Main nnbench create -files 10000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench -local
   ```
 
   This command will create 10000 empty files
@@ -30,7 +30,7 @@ The result will be printed the console and save to $location/results.
 - **open**
 
   ```shell
-  hadoop jar juicefs-hadoop.jar nnbench open -files 10000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench -local
+  hadoop jar juicefs-hadoop.jar com.juicefs.Main nnbench open -files 10000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench -local
   ```
 
   This command will open 10000 files without reading data
@@ -38,13 +38,13 @@ The result will be printed the console and save to $location/results.
 - **rename**
 
   ```shell
-  hadoop jar juicefs-hadoop.jar nnbench rename -files 10000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench -local
+  hadoop jar juicefs-hadoop.jar com.juicefs.Main nnbench rename -files 10000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench -local
   ```
 
 - **delete**
 
   ```shell
-  hadoop jar juicefs-hadoop.jar nnbench delete -files 10000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench -local
+  hadoop jar juicefs-hadoop.jar com.juicefs.Main nnbench delete -files 10000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench -local
   ```
 
 ## 2. Distributed Benchmark
@@ -56,7 +56,7 @@ The following command will start the MapReduce distributed task to test the meta
 - **create**
 
   ```shell
-  hadoop jar juicefs-hadoop.jar nnbench create -maps 10 -threads 10 -files 1000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench
+  hadoop jar juicefs-hadoop.jar com.juicefs.Main nnbench create -maps 10 -threads 10 -files 1000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench
   ```
 
   10 map task, each has 10 threads, each thread create 1000 empty file. 100000 files in total
@@ -64,7 +64,7 @@ The following command will start the MapReduce distributed task to test the meta
 - **open**
 
   ```shell
-  hadoop jar juicefs-hadoop.jar nnbench open -maps 10 -threads 10 -files 1000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench
+  hadoop jar juicefs-hadoop.jar com.juicefs.Main nnbench open -maps 10 -threads 10 -files 1000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench
   ```
 
   10 map task, each has 10 threads, each thread open 1000 file. 100000 files in total
@@ -72,7 +72,7 @@ The following command will start the MapReduce distributed task to test the meta
 - **rename**
 
   ```shell
-  hadoop jar juicefs-hadoop.jar nnbench rename -maps 10 -threads 10 -files 1000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench
+  hadoop jar juicefs-hadoop.jar com.juicefs.Main nnbench rename -maps 10 -threads 10 -files 1000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench
   ```
 
   10 map task, each has 10 threads, each thread rename 1000 file. 100000 files in total
@@ -80,7 +80,7 @@ The following command will start the MapReduce distributed task to test the meta
 - **delete**
 
   ```shell
-  hadoop jar juicefs-hadoop.jar nnbench delete -maps 10 -threads 10 -files 1000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench
+  hadoop jar juicefs-hadoop.jar com.juicefs.Main nnbench delete -maps 10 -threads 10 -files 1000 -baseDir jfs://{JFS_NAME}/tmp/benchmarks/NNBench
   ```
 
   10 map task, each has 10 threads, each thread delete 1000 file. 100000 files in total
